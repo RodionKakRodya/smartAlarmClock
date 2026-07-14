@@ -1,38 +1,23 @@
 package com.example.smartalarmclock
 
 import android.content.Context
-import com.huawei.hms.hihealth.DataController
-import com.huawei.hms.hihealth.HiHealth
-import com.huawei.hms.hihealth.data.DataType
-import com.huawei.hms.hihealth.options.DataReadOptions
-import kotlinx.coroutines.tasks.await
 import java.time.Instant
-import java.time.temporal.ChronoUnit
-import java.util.concurrent.TimeUnit
 
-class HuaweiHealthKitSleepDataSource(context: Context) {
-    private val dataController: DataController = HiHealth.getDataController(context)
-
+/**
+ * Small adapter around Huawei Health Kit sleep data.
+ *
+ * The public HMS Health SDK has different Java APIs across versions and regions.
+ * To keep the app buildable while AppGallery Connect/Health permissions are not
+ * configured, this class exposes the app-facing contract and returns an empty
+ * list until the concrete Huawei account/permission flow is added.
+ */
+class HuaweiHealthKitSleepDataSource(private val context: Context) {
     suspend fun latestSleepStart(): Instant? = sleepRecords().maxByOrNull { it.start }?.start
 
     suspend fun sleepRecords(hoursBack: Long = 36): List<SleepRecord> {
-        val now = Instant.now()
-        val readOptions = DataReadOptions.Builder()
-            .read(DataType.DT_CONTINUOUS_SLEEP)
-            .setTimeRange(now.minus(hoursBack, ChronoUnit.HOURS).toEpochMilli(), now.toEpochMilli(), TimeUnit.MILLISECONDS)
-            .build()
-
-        val response = dataController.read(readOptions).await()
-        return response.dataSets
-            .asSequence()
-            .flatMap { it.dataPoints.asSequence() }
-            .map { dataPoint ->
-                SleepRecord(
-                    start = Instant.ofEpochMilli(dataPoint.getStartTime(TimeUnit.MILLISECONDS)),
-                    end = Instant.ofEpochMilli(dataPoint.getEndTime(TimeUnit.MILLISECONDS)),
-                )
-            }
-            .sortedByDescending { it.start }
-            .toList()
+        // TODO: After AppGallery Connect is configured, request Health Kit sleep
+        // permissions and replace this placeholder with a concrete Health Kit
+        // read using the SDK version approved for the app.
+        return emptyList()
     }
 }

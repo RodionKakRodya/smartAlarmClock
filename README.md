@@ -86,7 +86,7 @@ Get-Content .\gradle\wrapper\gradle-wrapper.properties
 
 ## Как приложение подключается к Huawei Health Kit
 
-Подключение выполняется через зависимость `com.huawei.hms:health` и репозиторий Huawei Maven. В рантайме `HuaweiHealthKitSleepDataSource` получает `DataController` через `HiHealth.getDataController(context)`, формирует `DataReadOptions` для `DataType.DT_CONTINUOUS_SLEEP` за последние 36 часов и вызывает `dataController.read(...)`.
+Подключение начинается с зависимости `com.huawei.hms:health` и репозитория Huawei Maven. Сейчас `HuaweiHealthKitSleepDataSource` оставлен как компилируемый адаптер-контракт: он не импортирует несовместимые классы SDK напрямую, чтобы проект собирался до настройки AppGallery Connect, Huawei ID и разрешений Health Kit. После выдачи доступа к Health Kit в этом классе нужно заменить placeholder на конкретный approved SDK/API для чтения сна.
 
 Важно: для реального устройства перед чтением сна нужно настроить приложение в AppGallery Connect, добавить `agconnect-services.json` и реализовать экран/flow запроса разрешений Huawei Health Kit на чтение сна.
 

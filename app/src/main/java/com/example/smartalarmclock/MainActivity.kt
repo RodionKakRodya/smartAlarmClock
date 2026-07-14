@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
             textSize = 16f
         }
         val sleepTable = TableLayout(this).apply {
-            stretchAllColumns = true
+            setStretchAllColumns(true)
         }
         val startButton = Button(this).apply {
             text = getString(R.string.start_polling)
