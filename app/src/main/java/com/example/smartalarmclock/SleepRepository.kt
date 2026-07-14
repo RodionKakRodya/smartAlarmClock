@@ -17,6 +17,8 @@ class SleepRepository(context: Context) {
         preferences.edit().putString(KEY_LAST_PROCESSED_SLEEP_START, sleepStart.toString()).apply()
     }
 
+    suspend fun sleepRecords(): List<SleepRecord> = healthKit.sleepRecords()
+
     companion object {
         private const val KEY_LAST_PROCESSED_SLEEP_START = "last_processed_sleep_start"
     }

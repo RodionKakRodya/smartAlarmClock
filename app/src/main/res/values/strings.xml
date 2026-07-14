@@ -3,4 +3,9 @@
     <string name="status_text">Нажмите кнопку, чтобы каждые 15 минут искать новый сон в Huawei Health Kit и ставить будильник через 7,5 часов после засыпания.</string>
     <string name="start_polling">Включить умный будильник</string>
     <string name="polling_enabled">Проверка сна включена. Будильник будет поставлен после появления новой записи сна.</string>
+    <string name="load_sleep_data">Показать данные сна</string>
+    <string name="sleep_table_empty">Записей сна за последние 36 часов не найдено.</string>
+    <string name="loading_sleep_data">Загружаю данные сна из Huawei Health Kit…</string>
+    <string name="sleep_table_loaded">Загружено записей сна: %1$d</string>
+    <string name="sleep_table_error">Не удалось загрузить сон: %1$s</string>
 </resources>
