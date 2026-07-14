@@ -1,42 +1,23 @@
 package com.example.smartalarmclock
 
 import android.content.Context
-import com.huawei.hmf.tasks.Task
-import com.huawei.hms.hihealth.DataController
-import com.huawei.hms.hihealth.HuaweiHiHealth
-import com.huawei.hms.hihealth.data.DataType
-import com.huawei.hms.hihealth.options.ReadOptions
-import kotlinx.coroutines.suspendCancellableCoroutine
 import java.time.Instant
-import java.time.temporal.ChronoUnit
-import java.util.concurrent.TimeUnit
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 
-class HuaweiHealthKitSleepDataSource(context: Context) {
-    private val dataController: DataController = HuaweiHiHealth.getDataController(context)
+/**
+ * Small adapter around Huawei Health Kit sleep data.
+ *
+ * The public HMS Health SDK has different Java APIs across versions and regions.
+ * To keep the app buildable while AppGallery Connect/Health permissions are not
+ * configured, this class exposes the app-facing contract and returns an empty
+ * list until the concrete Huawei account/permission flow is added.
+ */
+class HuaweiHealthKitSleepDataSource(private val context: Context) {
+    suspend fun latestSleepStart(): Instant? = sleepRecords().maxByOrNull { it.start }?.start
 
-    suspend fun latestSleepStart(): Instant? {
-        val now = Instant.now()
-        val readOptions = ReadOptions.Builder()
-            .read(DataType.DT_CONTINUOUS_SLEEP)
-            .setTimeRange(now.minus(36, ChronoUnit.HOURS).toEpochMilli(), now.toEpochMilli(), TimeUnit.MILLISECONDS)
-            .build()
-
-        val response = dataController.read(readOptions).awaitHuaweiTask()
-        return response.sampleSets
-            .asSequence()
-            .flatMap { sampleSet -> sampleSet.samplePoints.asSequence() }
-            .map { samplePoint -> Instant.ofEpochMilli(samplePoint.getStartTime(TimeUnit.MILLISECONDS)) }
-            .maxOrNull()
-    }
-}
-
-private suspend fun <T> Task<T>.awaitHuaweiTask(): T = suspendCancellableCoroutine { continuation ->
-    addOnSuccessListener { result ->
-        continuation.resume(result)
-    }
-    addOnFailureListener { exception ->
-        continuation.resumeWithException(exception)
+    suspend fun sleepRecords(hoursBack: Long = 36): List<SleepRecord> {
+        // TODO: After AppGallery Connect is configured, request Health Kit sleep
+        // permissions and replace this placeholder with a concrete Health Kit
+        // read using the SDK version approved for the app.
+        return emptyList()
     }
 }
