@@ -1,0 +1,9 @@
+.gradle/
+build/
+local.properties
+*.iml
+.idea/
+app/build/
+
+# Generated locally from gradle-wrapper.jar.base64 because binary files cannot be pushed here.
+gradle/wrapper/gradle-wrapper.jar
