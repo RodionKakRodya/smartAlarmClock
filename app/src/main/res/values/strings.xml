@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Smart Alarm Clock</string>
+    <string name="status_text">Нажмите кнопку, чтобы каждые 15 минут искать новый сон в Huawei Health Kit и ставить будильник через 7,5 часов после засыпания.</string>
+    <string name="start_polling">Включить умный будильник</string>
+    <string name="polling_enabled">Проверка сна включена. Будильник будет поставлен после появления новой записи сна.</string>
+</resources>
